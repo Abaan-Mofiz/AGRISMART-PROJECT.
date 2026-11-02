@@ -1,0 +1,145 @@
+// # AgriSmart: Crop Recommendation System
+// **Developer:** Abaan Mofiz | **UID:** 26BAI10037
+
+// 1. **Project Purpose:** A basic C tool that recommends 5 optimal crops based on input state, season, and water levels.
+// 2. **String Handling:** Uses `char` arrays to hold input parameters and text descriptions securely in terminal memory.
+// 3. **String Comparisons:** Employs `strcmp` to match user choices against environmental conditions like "Winter" or "Summer".
+// 4. **String Operations:** Employs `strcpy` to map text names into specific memory offsets inside the crop data array.
+// 5. **If-Else Control:** Uses nested `if-else` condition pathways to select crops based on current weather variables.
+// 6. **Switch Case:** Uses a `switch` panel to quickly look up schedules and farming guides for the chosen option.
+// 7. **Pointers & Addresses:** Uses the address-of operator `&` to reference memory blocks located 20 elements apart.
+// 8. **Recursion Over Loops:** Uses a self-calling `displayCrops` function to loop through and print items without standard loops.
+// 9. **How to Compile:** Compile the application via terminal by running the shell command `gcc main.c -o agrismart`.
+// 10. **How to Run:** Run using `./agrismart` (Linux/macOS) or `agrismart.exe` (Windows) and follow the simple on-screen text menus.
+
+#include <stdio.h>
+#include <string.h>
+void selectCrops(char si[], char wa[], char cr[])
+{
+ if (strcmp(si, "Winter") == 0){
+    if (strcmp(wa, "Low") == 0){
+      strcpy(&cr[0], "Mustard");
+      strcpy(&cr[20], "Gram");
+      strcpy(&cr[40], "Lentil");
+      strcpy(&cr[60], "Peas");
+      strcpy(&cr[80], "Barley");
+        }
+        else{
+            strcpy(&cr[0], "Wheat");
+            strcpy(&cr[20], "Potato");
+            strcpy(&cr[40], "Peas");
+            strcpy(&cr[60], "Mustard");
+            strcpy(&cr[80], "Gram");
+        }
+    }
+    else if (strcmp(si, "Summer") == 0)
+    {
+        if (strcmp(wa, "Low") == 0)
+        {
+            strcpy(&cr[0], "Millet");
+            strcpy(&cr[20], "Moong");
+            strcpy(&cr[40], "Cowpea");
+            strcpy(&cr[60], "Groundnut");
+            strcpy(&cr[80], "Sesame");
+        }
+        else
+        {
+            strcpy(&cr[0], "Maize");
+            strcpy(&cr[20], "Rice");
+            strcpy(&cr[40], "Tomato");
+            strcpy(&cr[60], "Cucumber");
+            strcpy(&cr[80], "Watermelon");
+        }
+    }
+    else
+    {
+        strcpy(&cr[0], "Maize");
+        strcpy(&cr[20], "Potato");
+        strcpy(&cr[40], "Tomato");
+        strcpy(&cr[60], "Moong");
+        strcpy(&cr[80], "Vegetables");
+    }
+}
+void displayCrops(char cr[], int i)
+{
+    if (i == 5)
+        return;
+
+    printf("%d. %s\n", i + 1, &cr[i * 20]);
+
+    displayCrops(cr, i + 1);
+}
+void cropDetails(int choice)
+{
+    switch (choice){
+    case 1:
+      printf("Sowing: October-November\n");
+      printf("Water: Medium\n");
+      printf("Irrigation: Every 15-20 days\n");
+      printf("Harvest: February-March\n");
+      break;
+        case 2:
+        printf("Sowing: November-December\n");
+        printf("Water: Medium\n");
+        printf("Irrigation: Every 10-15 days\n");
+        printf("Harvest: March-April\n");
+        break;
+        case 3:
+        printf("Sowing: October-November\n");
+        printf("Water: Medium\n");
+        printf("Irrigation: Every 10-15 days\n");
+        printf("Harvest: February-March\n");
+        break;
+        case 4:
+        printf("Sowing: October-November\n");
+        printf("Water: Low\n");
+        printf("Irrigation: Every 15-20 days\n");
+        printf("Harvest: February-March\n");
+        break;
+        case 5:
+        printf("Sowing: October-November\n");
+        printf("Water: Low\n");
+        printf("Irrigation: Every 15-20 days\n");
+        printf("Harvest: March-April\n");
+        break;
+    }
+    printf("\nFarming Steps:\n1. Prepare the land.\n2. Sow the seeds.\n");
+    printf("3. Allow seeds to germinate.\n4. Provide water and take care of crops.\n");
+    printf("5. Harvest the crop when mature.\n");
+}
+int main()
+{
+    char st[50], si[20], wa[20],cr[100];
+    char *selectedCrop;
+    int choice;
+    printf("===== AGRISMART =====\n");
+    printf("Enter State: ");
+    scanf("%s", st);
+    printf("Enter Season (Winter/Summer/Spring): ");
+    scanf("%s", si);
+    printf("Water Availability (Low/Medium/High): ");
+    scanf("%s", wa);
+    selectCrops(si, wa, cr);
+    printf("\n===== RECOMMENDED CROPS =====\n");
+    displayCrops(cr, 0);
+
+    printf("\nSelect your crop: ");
+    scanf("%d", &choice);
+
+    if (choice < 1 || choice > 5)
+    {
+        printf("Invalid choice!");
+        return 0;
+    }
+
+    selectedCrop = &cr[(choice - 1) * 20];
+
+    printf("\n===== SELECTED CROP DETAILS =====\n");
+
+    printf("State: %s\n", st);
+    printf("Selected Crop: %s\n", selectedCrop);
+
+    cropDetails(choice);
+    printf("Thanks for consulting!");
+    return 0;
+}
